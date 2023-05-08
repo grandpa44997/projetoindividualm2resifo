@@ -24,3 +24,13 @@ def buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s):
             candidatos_selecionados.append(candidato['nome'])
     # retorna a lista de candidatos selecionados
     return candidatos_selecionados
+
+# Pede ao usuário para informar as notas de corte desejadas
+nota_e = int(input("Informe a nota mínima desejada em entrevista: "))
+nota_t = int(input("Informe a nota mínima desejada em teste teórico: "))
+nota_p = int(input("Informe a nota mínima desejada em teste prático: "))
+nota_s = int(input("Informe a nota mínima desejada em avaliação de soft skills: "))
+
+# Chama a função com as notas de corte informadas pelo usuário e imprime o resultado
+candidatos_selecionados = buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s)
+print("Candidatos selecionados:", candidatos_selecionados)
