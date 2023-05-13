@@ -1,4 +1,4 @@
-# ISSO É UM DICIONÁRIO QUE Define a lista de candidatos com seus resultados no processo seletivo
+# Isso é uma lista de dicionários de candidatos com seus resultados no processo seletivo
 candidatos = [
     {'nome': 'João', 'resultado': 'e6_t8_p7_s9'},
     {'nome': 'Maria', 'resultado': 'e8_t7_p9_s8'},
