@@ -1,36 +1,42 @@
-# Isso é uma lista de dicionários de candidatos com seus resultados no processo seletivo
+# Define a lista de candidatos com seus resultados no processo seletivo
 candidatos = [
-    {'nome': 'João', 'resultado': 'e6_t8_p7_s9'},
-    {'nome': 'Maria', 'resultado': 'e8_t7_p9_s8'},
-    {'nome': 'José', 'resultado': 'e4_t6_p8_s7'},
-    {'nome': 'Ana', 'resultado': 'e7_t9_p6_s9'},
-    {'nome': 'Carlos', 'resultado': 'e6_t8_p8_s7'}
+    ('João', 8, 6, 7, 9),
+    ('Maria', 8, 7, 9, 8),
+    ('José', 4, 6, 8, 7),
+    ('Ana', 7, 9, 6, 9),
+    ('Carlos', 6, 8, 8, 7)
 ]
+
+# Define a função que busca candidatos de acordo com critérios de nota
 def buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s):
-    # cria uma lista vazia para armazenar os candidatos selecionados
     candidatos_selecionados = []
-    # itera sobre cada candidato na lista de candidatos fornecida
     for candidato in candidatos:
-        # obtém o resultado do candidato atual na forma de uma string
-        resultado = candidato['resultado']
-        # extrai as notas de cada etapa do resultado do candidato atual e as converte em inteiros
-        nota_e_candidato = int(resultado[1])
-        nota_t_candidato = int(resultado[4])
-        nota_p_candidato = int(resultado[7])
-        nota_s_candidato = int(resultado[10])
-        # verifica se as notas de cada etapa do candidato atual são maiores ou iguais às notas de corte fornecidas
+        nome = candidato[0]
+        nota_e_candidato = candidato[1]
+        nota_t_candidato = candidato[2]
+        nota_p_candidato = candidato[3]
+        nota_s_candidato = candidato[4]
         if nota_e_candidato >= nota_e and nota_t_candidato >= nota_t and nota_p_candidato >= nota_p and nota_s_candidato >= nota_s:
-            # adiciona o nome do candidato atual à lista de candidatos selecionados
-            candidatos_selecionados.append(candidato['nome'])
-    # retorna a lista de candidatos selecionados
+            candidatos_selecionados.append(nome)
     return candidatos_selecionados
 
-# Pede ao usuário para informar as notas de corte desejadas
-nota_e = int(input("Informe a nota mínima desejada em entrevista: "))
-nota_t = int(input("Informe a nota mínima desejada em teste teórico: "))
-nota_p = int(input("Informe a nota mínima desejada em teste prático: "))
-nota_s = int(input("Informe a nota mínima desejada em avaliação de soft skills: "))
+# Adiciona uma função auxiliar para verificar se uma nota é maior ou igual a 10
+def nota_valida(nota):
+    return isinstance(nota, int) and nota >= 0 and nota <= 10
 
-# Chama a função com as notas de corte informadas pelo usuário e imprime o resultado
-candidatos_selecionados = buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s)
-print("Candidatos selecionados:", candidatos_selecionados)
+# Pede ao usuário para informar as notas de corte desejadas e executa a pesquisa
+while True:
+    nota_e = int(input("Informe a nota mínima desejada em entrevista: "))
+    nota_t = int(input("Informe a nota mínima desejada em teste teórico: "))
+    nota_p = int(input("Informe a nota mínima desejada em teste prático: "))
+    nota_s = int(input("Informe a nota mínima desejada em avaliação de soft skills: "))
+    
+    if nota_valida(nota_e) and nota_valida(nota_t) and nota_valida(nota_p) and nota_valida(nota_s):
+        candidatos_selecionados = buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s)
+        print("Candidatos selecionados: ", ", ".join(candidatos_selecionados))
+        
+        continuar = input("Deseja realizar outra pesquisa? (s/n) ")
+        if continuar.lower() == "n":
+            break
+    else:
+        print("Por favor, informe apenas notas válidas entre 0 e 10.")
