@@ -1,60 +1,53 @@
+#lista de dicionários
 candidatos = [
-    ('João', 8, 6, 7, 9),
-    ('Maria', 8, 7, 9, 8),
-    ('José', 4, 6, 8, 7),
-    ('Ana', 7, 9, 6, 9),
-    ('Carlos', 6, 8, 8, 7)
+    {'nome': 'João', 'resultado': 'e6_t10_p7_s9'},
+    {'nome': 'Maria', 'resultado': 'e8_t7_p9_s8'},
+    {'nome': 'José', 'resultado': 'e4_t6_p8_s7'},
+    {'nome': 'Ana', 'resultado': 'e7_t9_p6_s9'},
+    {'nome': 'Carlos', 'resultado': 'e6_t8_p8_s7'}
 ]
 
+def verificar_criterio(candidato, criterio, nota):
+    # Extrai as notas do resultado do candidato
+    notas = candidato['resultado'].split('_')[1:]
+    notas = [int(nota[1:]) for nota in notas]
+    # Verifica se todas as notas do critério são maiores ou iguais à nota mínima
+    return all(nota >= criterio for nota in notas)
+
 def buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s):
-    # Lista para armazenar os candidatos selecionados
     candidatos_selecionados = []
-    
     for candidato in candidatos:
-        # Extrai as informações do candidato
-        nome = candidato[0]
-        nota_e_candidato = candidato[1]
-        nota_t_candidato = candidato[2]
-        nota_p_candidato = candidato[3]
-        nota_s_candidato = candidato[4]
-        
-        # Verifica se o candidato atende aos critérios de nota mínima
-        if (nota_e_candidato >= nota_e and
-            nota_t_candidato >= nota_t and
-            nota_p_candidato >= nota_p and
-            nota_s_candidato >= nota_s):
-            # Adiciona o nome do candidato à lista de selecionados
-            candidatos_selecionados.append(nome)
-    
-    # Retorna a lista de candidatos selecionados
+        # Verifica se o candidato atende a todos os critérios
+        if (
+            verificar_criterio(candidato, 'e', nota_e) and
+            verificar_criterio(candidato, 't', nota_t) and
+            verificar_criterio(candidato, 'p', nota_p) and
+            verificar_criterio(candidato, 's', nota_s)
+        ):
+            # Adiciona o nome do candidato à lista de candidatos selecionados
+            candidatos_selecionados.append(candidato['nome'])
     return candidatos_selecionados
 
-def nota_valida(nota):
-    # Verifica se a nota é um número inteiro válido entre 0 e 10
-    return isinstance(nota, int) and 0 <= nota <= 10
+def obter_nota_minima(mensagem):
+    while True:
+        try:
+            nota = int(input(mensagem))
+            # Verifica se a nota está no intervalo válido (0 a 10)
+            if 0 <= nota <= 10:
+                return nota
+            else:
+                print("A nota deve estar entre 0 e 10.")
+        except ValueError:
+            print("Por favor, insira um número inteiro válido.")
 
-while True:
-    # Solicita ao usuário as notas mínimas desejadas para cada categoria
-    nota_e = int(input("Informe a nota mínima desejada em entrevista: "))
-    nota_t = int(input("Informe a nota mínima desejada em teste teórico: "))
-    nota_p = int(input("Informe a nota mínima desejada em teste prático: "))
-    nota_s = int(input("Informe a nota mínima desejada em avaliação de soft skills: "))
+# Solicita ao usuário as notas mínimas desejadas
+nota_e = obter_nota_minima("Informe a nota mínima desejada em entrevista: ")
+nota_t = obter_nota_minima("Informe a nota mínima desejada em teste teórico: ")
+nota_p = obter_nota_minima("Informe a nota mínima desejada em teste prático: ")
+nota_s = obter_nota_minima("Informe a nota mínima desejada em avaliação de soft skills: ")
 
-    # Verifica se todas as notas informadas são válidas
-    if (nota_valida(nota_e) and nota_valida(nota_t) and
-        nota_valida(nota_p) and nota_valida(nota_s)):
-        
-        # Chama a função para buscar os candidatos que atendem aos critérios de nota
-        candidatos_selecionados = buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s)
-        
-        # Imprime a lista de candidatos selecionados
-        print("Candidatos selecionados: ", ", ".join(candidatos_selecionados))
-        
-        # Pergunta ao usuário se deseja realizar outra pesquisa
-        continuar = input("Deseja realizar outra pesquisa? (s/n) ")
-        
-        if continuar.lower() == "n":
-            break
-    else:
-        # Informa ao usuário que as notas informadas são inválidas
-        print("Por favor, informe apenas notas válidas entre 0 e 10.")
+# Busca os candidatos que atendem aos critérios e armazena em uma lista
+candidatos_selecionados = buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s)
+
+# Imprime os candidatos selecionados
+print("Candidatos selecionados:", candidatos_selecionados)
