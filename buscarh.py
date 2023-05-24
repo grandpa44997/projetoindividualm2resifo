@@ -1,6 +1,6 @@
 # Isso é uma lista de dicionários de candidatos com seus resultados no processo seletivo
 candidatos = [
-    {'nome': 'João', 'resultado': 'e10_t10_p10_s10'},
+    {'nome': 'João', 'resultado': 'e6_t10_p7_s9'},
     {'nome': 'Maria', 'resultado': 'e8_t7_p9_s8'},
     {'nome': 'José', 'resultado': 'e4_t6_p8_s7'},
     {'nome': 'Ana', 'resultado': 'e7_t9_p6_s9'},
@@ -30,12 +30,24 @@ def buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s):
     # Retorna a lista de candidatos selecionados
     return candidatos_selecionados
 
-# Pede ao usuário para informar as notas de corte desejadas
-nota_e = int(input("Informe a nota mínima desejada em entrevista: "))
-nota_t = int(input("Informe a nota mínima desejada em teste teórico: "))
-nota_p = int(input("Informe a nota mínima desejada em teste prático: "))
-nota_s = int(input("Informe a nota mínima desejada em avaliação de soft skills: "))
+while True:
+    # Pede ao usuário para informar as notas de corte desejadas
+    nota_e = int(input("Informe a nota mínima desejada em entrevista: "))
+    nota_t = int(input("Informe a nota mínima desejada em teste teórico: "))
+    nota_p = int(input("Informe a nota mínima desejada em teste prático: "))
+    nota_s = int(input("Informe a nota mínima desejada em avaliação de soft skills: "))
 
-# Chama a função com as notas de corte informadas pelo usuário e imprime o resultado
-candidatos_selecionados = buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s)
-print("Candidatos selecionados:", candidatos_selecionados)
+    # Chama a função com as notas de corte informadas pelo usuário
+    candidatos_selecionados = buscar_candidatos(candidatos, nota_e, nota_t, nota_p, nota_s)
+
+    # Verifica se há candidatos selecionados
+    if len(candidatos_selecionados) > 0:
+        # Imprime os candidatos selecionados em uma frase
+        print("A(s) pessoa(s) candidata(s) ideal(is) para a vaga:", ", ".join(candidatos_selecionados))
+    else:
+        print("Não há candidato disponível.")
+
+    # Pergunta ao usuário se deseja refazer a pesquisa
+    resposta = input("Deseja refazer a pesquisa? (s/n): ")
+    if resposta.lower() != "s":
+        break
